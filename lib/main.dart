@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/data/article.dart';
-import 'package:myapp/pages/articlewebview.dart';
+import 'package:myapp/data/restaurant.dart';
 import 'package:myapp/pages/detailpage.dart';
-import 'package:myapp/pages/newslistpage.dart';
+import 'package:myapp/pages/menupage.dart';
+import 'package:myapp/pages/restaurantpage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,19 +15,21 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'News App',
+      title: 'Restaurant App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      initialRoute: NewsListPage.routeName,
+      initialRoute: RestaurantPage.routeName,
       routes: {
-        NewsListPage.routeName: (context) => const NewsListPage(),
+        RestaurantPage.routeName: (context) => const RestaurantPage(),
         DetailPage.routeName: (context) => DetailPage(
-              article: ModalRoute.of(context)?.settings.arguments as Article,
+            restaurant:
+                ModalRoute.of(context)?.settings.arguments as Restaurant),
+        MenuPage.routeName: (context) => MenuPage(
+              restaurant:
+                  ModalRoute.of(context)?.settings.arguments as Restaurant,
             ),
-        ArticleWebView.routeName: (context) => ArticleWebView(
-            url: ModalRoute.of(context)?.settings.arguments as String),
       },
     );
   }

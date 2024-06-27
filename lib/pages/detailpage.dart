@@ -1,60 +1,67 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/data/article.dart';
-import 'package:myapp/pages/articlewebview.dart';
+import 'package:myapp/data/restaurant.dart';
+import 'package:myapp/pages/menupage.dart';
 
 class DetailPage extends StatelessWidget {
-  static const routeName = '/article_detail';
+  static const routeName = '/detail_page';
 
-  final Article article;
-  const DetailPage({super.key, required this.article});
+  final Restaurant restaurant;
+  const DetailPage({super.key, required this.restaurant});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(article.title),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Image.network(article.urlToImage),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(article.description),
-                  const Divider(color: Colors.grey),
-                  Text(
-                    article.title,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 24,
-                    ),
-                  ),
-                  const Divider(color: Colors.grey),
-                  Text('Date: ${article.publishedAt}'),
-                  const SizedBox(height: 10),
-                  Text('Author: ${article.author}'),
-                  const Divider(color: Colors.grey),
-                  Text(
-                    article.content,
-                    style: const TextStyle(fontSize: 16),
-                  ),
-                  const SizedBox(height: 10),
-                  ElevatedButton(
-                    child: const Text('Read more'),
-                    onPressed: () {
-                      Navigator.pushNamed(context, ArticleWebView.routeName,
-                          arguments: article.url);
-                    },
-                  ),
-                ],
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            expandedHeight: 200.0,
+            floating: false,
+            pinned: true,
+            flexibleSpace: FlexibleSpaceBar(
+              background: Image.network(
+                restaurant.pictureId,
+                fit: BoxFit.cover,
               ),
             ),
-          ],
-        ),
+          ),
+          SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'City: ${restaurant.city}',
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Rating: ${restaurant.rating}',
+                      ),
+                      const SizedBox(height: 16),
+                      const Text(
+                        'Description:',
+                      ),
+                      Text(restaurant.description),
+                      const SizedBox(height: 16),
+                      SizedBox(
+                        width: double.infinity,
+                        child: FilledButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, MenuPage.routeName,
+                                arguments: restaurant);
+                          },
+                          child: const Text('Menu'),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
